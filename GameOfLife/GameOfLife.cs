@@ -4,13 +4,15 @@ namespace GameOfLife
 {
     public class World
     {
-        public bool IsPrime(int candidate)
+        public char[,] buildMatrix()
         {
-            if (candidate == 1)
+            char[,] matrix = new char[32,32];
+            foreach ()
+            for (int i=0; i<=matrix.Length; i++)
             {
-                return false;
+
             }
-            throw new NotImplementedException("Not implemented.");
+            return matrix;
         }
     }
 }
