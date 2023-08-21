@@ -7,8 +7,12 @@ namespace GameOfLife
         public char[,] buildMatrix()
         {
             char[,] matrix = new char[32,32];
-            foreach ()
-            for (int i=0; i<=matrix.Length; i++)
+            int length = matrix.Length - 1;
+            matrix[0,0] = '+';
+            matrix[0,length] = '+';
+            matrix[length,0] = '+';
+            matrix[length,length] = '+';
+            for (int i=0; i<=length; i++)
             {
 
             }
