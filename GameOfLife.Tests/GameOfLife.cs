@@ -42,6 +42,7 @@ namespace GameOfLife.UnitTests {
                 {'+','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','+'}
             };
 
+            Assert.Equal(32, actual.GetLength(0)); // length of the first row
             Assert.Equal(expected, actual);
         }
     }
