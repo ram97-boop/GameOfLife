@@ -4,9 +4,13 @@ namespace GameOfLife
 {
     public class World
     {
-        public char[,] buildMatrix()
+        private char[,] worldMatrix = new char[32,32];
+
+        // Constructor with lambda expression.w
+        public World() => buildMatrix(worldMatrix);
+
+        private char[,] buildMatrix(char[,] matrix)
         {
-            char[,] matrix = new char[32,32];
             int length = matrix.GetLength(0) - 1;
 
             matrix[0,0] = '+';
@@ -29,6 +33,11 @@ namespace GameOfLife
                 }
             }
             return matrix;
+        }
+
+        public char[,] getMatrix()
+        {
+            return this.worldMatrix;
         }
     }
 }

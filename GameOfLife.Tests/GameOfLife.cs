@@ -5,7 +5,7 @@ namespace GameOfLife.UnitTests {
         public void buildMatrixCorrectly()
         {
             World world = new World();
-            char[,] actual = world.buildMatrix();
+            char[,] actual = world.getMatrix();
             char[,] expected = 
             {
                 {'+','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','+'},
