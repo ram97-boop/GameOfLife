@@ -39,5 +39,11 @@ namespace GameOfLife
         {
             return this.worldMatrix;
         }
+
+        public static void main(string[] args)
+        {
+            World world = new World();
+            Console.Write(world.getMatrix());
+        }
     }
 }
