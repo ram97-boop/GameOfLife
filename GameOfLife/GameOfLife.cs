@@ -26,9 +26,13 @@ namespace GameOfLife
                     {
                         matrix[i,j] = '-';
                     }
-                    if ((j==0 || j==length) && i!=0 && i!=length)
+                    else if ((j==0 || j==length) && i!=0 && i!=length)
                     {
                         matrix[i,j] = '|';
+                    }
+                    else if (i!=0 && i!=length && j!=0 && j!=length)
+                    {
+                        matrix[i,j] = ' ';
                     }
                 }
             }
@@ -43,7 +47,17 @@ namespace GameOfLife
         public static void Main(string[] args)
         {
             World world = new World();
-            Console.Write(world.getMatrix());
+            int length = world.getMatrix().GetLength(0) - 1;
+
+            for (int i=0; i<=length; i++)
+            {
+                for (int j=0; j<=length; j++)
+                {
+                    Console.Write(world.getMatrix()[i,j]);
+                }
+                
+                Console.Write('\n');
+            }
         }
     }
 }
