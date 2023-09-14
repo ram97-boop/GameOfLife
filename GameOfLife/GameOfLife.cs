@@ -44,20 +44,33 @@ namespace GameOfLife
             return this.worldMatrix;
         }
 
-        public static void Main(string[] args)
+        public void printWorld()
         {
-            World world = new World();
-            int length = world.getMatrix().GetLength(0) - 1;
+            int length = this.worldMatrix.GetLength(0) - 1;
 
             for (int i=0; i<=length; i++)
             {
                 for (int j=0; j<=length; j++)
                 {
-                    Console.Write(world.getMatrix()[i,j]);
+                    Console.Write(this.worldMatrix[i,j]);
                 }
                 
                 Console.Write('\n');
             }
+
+        }
+
+        public static void Main(string[] args)
+        {
+            World world = new World();
+            Console.Clear();
+            int positionX = Console.CursorLeft;
+            int positionY = Console.CursorTop;
+            Console.SetCursorPosition(positionX, positionY);
+            world.printWorld();
+            Console.SetCursorPosition(positionX, positionY);
+            world.printWorld();
+            // Console.WriteLine($"Cursor position is: {positionX}, {positionY}.");
         }
     }
 }
