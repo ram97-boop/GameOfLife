@@ -9,6 +9,54 @@ namespace GameOfLife
         // Constructor with lambda expression.w
         public World() => buildMatrix(worldMatrix);
 
+        public World(char[,] matrix)
+        {
+            this.worldMatrix = matrix;
+        }
+
+        public void nextGeneration()
+        {
+            int length = this.worldMatrix.GetLength(0) - 1;
+
+            for (int i=1; i<length; i++)
+            {
+                for (int j=1; j<length; j++)
+                {
+                    int liveNeighbours = getLiveNeighbours(i, j);
+                }
+            }
+        }
+
+        public char[,] getMatrix()
+        {
+            return this.worldMatrix;
+        }
+
+        public void printWorld()
+        {
+            int length = this.worldMatrix.GetLength(0) - 1;
+
+            for (int i=0; i<=length; i++)
+            {
+                for (int j=0; j<=length; j++)
+                {
+                    Console.Write(this.worldMatrix[i,j]);
+                }
+                
+                Console.Write('\n');
+            }
+
+        }
+
+        public void createGlider()
+        {
+            this.worldMatrix[4,4] = '\u2588';
+            this.worldMatrix[5,5] = '\u2588';
+            this.worldMatrix[6,3] = '\u2588';
+            this.worldMatrix[6,4] = '\u2588';
+            this.worldMatrix[6,5] = '\u2588';
+        }
+
         private char[,] buildMatrix(char[,] matrix)
         {
             int length = matrix.GetLength(0) - 1;
@@ -39,30 +87,15 @@ namespace GameOfLife
             return matrix;
         }
 
-        public char[,] getMatrix()
+        private int[,] getLiveNeighbours(int x, int j)
         {
-            return this.worldMatrix;
-        }
-
-        public void printWorld()
-        {
-            int length = this.worldMatrix.GetLength(0) - 1;
-
-            for (int i=0; i<=length; i++)
-            {
-                for (int j=0; j<=length; j++)
-                {
-                    Console.Write(this.worldMatrix[i,j]);
-                }
-                
-                Console.Write('\n');
-            }
-
+            
         }
 
         public static void Main(string[] args)
         {
             World world = new World();
+            world.createGlider();
             Console.Clear();
             int positionX = Console.CursorLeft;
             int positionY = Console.CursorTop;
