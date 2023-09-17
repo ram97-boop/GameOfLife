@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace GameOfLife
 {
     public class World
     {
-        private char[,] worldMatrix = new char[32,32];
+        private static int rows = 32;
+        private static int cols = 32;
+        private char[,] worldMatrix = new char[rows,cols];
 
         // Constructor with lambda expression.w
         public World() => buildMatrix(worldMatrix);
@@ -16,16 +19,43 @@ namespace GameOfLife
 
         public void nextGeneration()
         {
+            char[,] newWorldMatrix = buildMatrix(new char[rows,cols]);
             int length = this.worldMatrix.GetLength(0) - 1;
 
             for (int i=1; i<length; i++)
             {
                 for (int j=1; j<length; j++)
                 {
+                    char currentCell = this.worldMatrix[i,j];
                     int liveNeighbours = getLiveNeighbours(i, j);
+                    if
+                    (
+                        currentCell == '\u2588'
+                        && (liveNeighbours<2 || liveNeighbours>3)
+                    )
+                    {
+                        updateNewWorldCell(newWorldMatrix, i, j, ' ');
+                    }
+
+                    else if
+                    (
+                        currentCell == ' '
+                        && liveNeighbours == 3
+                    )
+                    {
+                        updateNewWorldCell(newWorldMatrix, i, j, '\u2588');
+                    }
+
+                    else
+                    {
+                        updateNewWorldCell(newWorldMatrix, i, j, currentCell);
+                    }
                 }
             }
+
+            this.worldMatrix = newWorldMatrix;
         }
+
 
         public char[,] getMatrix()
         {
@@ -87,9 +117,32 @@ namespace GameOfLife
             return matrix;
         }
 
-        private int[,] getLiveNeighbours(int x, int j)
+        private int getLiveNeighbours(int x, int y)
         {
-            
+            int[,] relativeNeighbourCoords =
+            {
+                {-1,-1},{-1,0},{-1,1},{0,-1},{0,1},{1,-1},{1,0},{1,1}
+            };
+
+            int liveNeighbours = 0;
+            for (int i=0; i<relativeNeighbourCoords.GetLength(0); i++)
+            {
+                int deltaX = x + relativeNeighbourCoords[i,0];
+                int deltaY = y + relativeNeighbourCoords[i,1];
+                char neighbour = this.worldMatrix[deltaX, deltaY];
+
+                if (neighbour == '\u2588')
+                {
+                    liveNeighbours++;
+                }
+            }
+
+            return liveNeighbours;
+        }
+        
+        private void updateNewWorldCell(char[,] newWorldMatrix, int x, int y, char status)
+        {
+            newWorldMatrix[x,y] = status;
         }
 
         public static void Main(string[] args)
