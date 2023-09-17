@@ -5,6 +5,7 @@ namespace GameOfLife
 {
     public class World
     {
+        private char liveCellIndicator = '\u2588';
         private static int rows = 32;
         private static int cols = 32;
         private char[,] worldMatrix = new char[rows,cols];
@@ -30,7 +31,7 @@ namespace GameOfLife
                     int liveNeighbours = getLiveNeighbours(i, j);
                     if
                     (
-                        currentCell == '\u2588'
+                        currentCell == this.liveCellIndicator
                         && (liveNeighbours<2 || liveNeighbours>3)
                     )
                     {
@@ -43,7 +44,7 @@ namespace GameOfLife
                         && liveNeighbours == 3
                     )
                     {
-                        updateNewWorldCell(newWorldMatrix, i, j, '\u2588');
+                        updateNewWorldCell(newWorldMatrix, i, j, this.liveCellIndicator);
                     }
 
                     else
@@ -80,11 +81,11 @@ namespace GameOfLife
 
         public void createGlider()
         {
-            this.worldMatrix[4,4] = '\u2588';
-            this.worldMatrix[5,5] = '\u2588';
-            this.worldMatrix[6,3] = '\u2588';
-            this.worldMatrix[6,4] = '\u2588';
-            this.worldMatrix[6,5] = '\u2588';
+            this.worldMatrix[4,4] = this.liveCellIndicator;
+            this.worldMatrix[5,5] = this.liveCellIndicator;
+            this.worldMatrix[6,3] = this.liveCellIndicator;
+            this.worldMatrix[6,4] = this.liveCellIndicator;
+            this.worldMatrix[6,5] = this.liveCellIndicator;
         }
 
         private char[,] buildMatrix(char[,] matrix)
@@ -131,7 +132,7 @@ namespace GameOfLife
                 int deltaY = y + relativeNeighbourCoords[i,1];
                 char neighbour = this.worldMatrix[deltaX, deltaY];
 
-                if (neighbour == '\u2588')
+                if (neighbour == this.liveCellIndicator)
                 {
                     liveNeighbours++;
                 }
