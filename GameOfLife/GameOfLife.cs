@@ -126,9 +126,13 @@ namespace GameOfLife
             int liveNeighbours = 0;
             for (int i=0; i<relativeNeighbourCoords.GetLength(0); i++)
             {
-                int deltaX = x + relativeNeighbourCoords[i,0];
-                int deltaY = y + relativeNeighbourCoords[i,1];
-                char neighbour = this.worldMatrix[deltaX, deltaY];
+                // modulo and if-statements are for making the world cyclical.
+                int neighbourX = (x + relativeNeighbourCoords[i,0]) % 30;
+                int neighbourY = (y + relativeNeighbourCoords[i,1]) % 30;
+                neighbourX = neighbourX != 0 ? neighbourX : 30;
+                neighbourY = neighbourY != 0 ? neighbourY : 30;
+                
+                char neighbour = this.worldMatrix[neighbourX, neighbourY];
 
                 if (neighbour == this.liveCellIndicator)
                 {
