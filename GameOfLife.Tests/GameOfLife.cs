@@ -165,5 +165,11 @@ namespace GameOfLife.UnitTests {
             Assert.Equal(expected, actual);
 
         }
+
+        [Fact(Skip = "An implementation for later.")]
+        public void smallerSymmetricalMatrixShouldWork()
+        {
+            char[,] matrix = new char[12,12];
+        }
     }
 }

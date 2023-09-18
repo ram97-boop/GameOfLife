@@ -6,9 +6,7 @@ namespace GameOfLife
     public class World
     {
         private char liveCellIndicator = '\u2588';
-        private static int rows = 32;
-        private static int cols = 32;
-        private char[,] worldMatrix = new char[rows,cols];
+        private char[,] worldMatrix = new char[32,32];
 
         // Constructor with lambda expression.w
         public World() => buildMatrix(worldMatrix);
@@ -20,7 +18,7 @@ namespace GameOfLife
 
         public void nextGeneration()
         {
-            char[,] newWorldMatrix = buildMatrix(new char[rows,cols]);
+            char[,] newWorldMatrix = buildMatrix(new char[32,32]);
             int length = this.worldMatrix.GetLength(0) - 1;
 
             for (int i=1; i<length; i++)
@@ -150,14 +148,18 @@ namespace GameOfLife
         {
             World world = new World();
             world.createGlider();
+
             Console.Clear();
             int positionX = Console.CursorLeft;
             int positionY = Console.CursorTop;
-            Console.SetCursorPosition(positionX, positionY);
-            world.printWorld();
-            Console.SetCursorPosition(positionX, positionY);
-            world.printWorld();
-            // Console.WriteLine($"Cursor position is: {positionX}, {positionY}.");
+
+            for (int i=0; i<1000; i++)
+            {
+                Console.SetCursorPosition(positionX, positionY);
+                world.printWorld();
+                world.nextGeneration();
+                Thread.Sleep(80);
+            }
         }
     }
 }
