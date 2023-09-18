@@ -16,6 +16,21 @@ namespace GameOfLife
             this.worldMatrix = matrix;
         }
 
+        public void spreadRandomLivesInWorld()
+        {
+            Random rand = new Random();
+            for (int i=1; i<this.worldMatrix.GetLength(0); i++)
+            {
+                for (int j=1; j<this.worldMatrix.GetLength(1); j++)
+                {
+                    if (rand.Next(0, 2) == 1)
+                    {
+                        this.worldMatrix[i,j] = this.liveCellIndicator;
+                    }
+                }
+            }
+        }
+
         public void nextGeneration()
         {
             char[,] newWorldMatrix = buildMatrix(new char[32,32]);
@@ -126,7 +141,7 @@ namespace GameOfLife
             int liveNeighbours = 0;
             for (int i=0; i<relativeNeighbourCoords.GetLength(0); i++)
             {
-                // modulo and if-statements are for making the world cyclical.
+                // modulo and one-liner if-statements are for making the world cyclical.
                 int neighbourX = (x + relativeNeighbourCoords[i,0]) % 30;
                 int neighbourY = (y + relativeNeighbourCoords[i,1]) % 30;
                 neighbourX = neighbourX != 0 ? neighbourX : 30;
@@ -151,7 +166,7 @@ namespace GameOfLife
         public static void Main(string[] args)
         {
             World world = new World();
-            world.createGlider();
+            world.spreadRandomLivesInWorld();
 
             Console.Clear();
             int positionX = Console.CursorLeft;
