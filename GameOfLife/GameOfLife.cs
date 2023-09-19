@@ -6,14 +6,29 @@ namespace GameOfLife
     public class World
     {
         private char liveCellIndicator = '\u2588';
-        private char[,] worldMatrix = new char[32,32];
+        private int rows = 32;
+        private int cols = 32;
+        private char[,] worldMatrix;
 
-        // Constructor with lambda expression.w
-        public World() => buildMatrix(worldMatrix);
+        public World()
+        {
+            worldMatrix = new char[rows, cols];
+            buildMatrix(worldMatrix);
+        }
 
         public World(char[,] matrix)
         {
+            this.rows = matrix.GetLength(0);
+            this.cols = matrix.GetLength(1);
             this.worldMatrix = matrix;
+        }
+
+        public World(int rows, int cols)
+        {
+            this.rows = rows + 2;
+            this.cols = cols + 2;
+            this.worldMatrix = new char[this.rows, this.cols];
+            buildMatrix(worldMatrix); 
         }
 
         public void spreadRandomLivesInWorld()
@@ -33,7 +48,7 @@ namespace GameOfLife
 
         public void nextGeneration()
         {
-            char[,] newWorldMatrix = buildMatrix(new char[32,32]);
+            char[,] newWorldMatrix = buildMatrix(new char[this.worldMatrix.GetLength(0), this.worldMatrix.GetLength(1)]);
             int length = this.worldMatrix.GetLength(0) - 1;
 
             for (int i=1; i<length; i++)
@@ -94,35 +109,36 @@ namespace GameOfLife
 
         public void createGlider()
         {
-            this.worldMatrix[4,4] = this.liveCellIndicator;
-            this.worldMatrix[5,5] = this.liveCellIndicator;
-            this.worldMatrix[6,3] = this.liveCellIndicator;
-            this.worldMatrix[6,4] = this.liveCellIndicator;
-            this.worldMatrix[6,5] = this.liveCellIndicator;
+            this.worldMatrix[1,2] = this.liveCellIndicator;
+            this.worldMatrix[2,3] = this.liveCellIndicator;
+            this.worldMatrix[3,1] = this.liveCellIndicator;
+            this.worldMatrix[3,2] = this.liveCellIndicator;
+            this.worldMatrix[3,3] = this.liveCellIndicator;
         }
 
         private char[,] buildMatrix(char[,] matrix)
         {
-            int length = matrix.GetLength(0) - 1;
+            int lastRowIndex = matrix.GetLength(0) - 1;
+            int lastColIndex = matrix.GetLength(1) - 1;
 
             matrix[0,0] = '+';
-            matrix[0,length] = '+';
-            matrix[length,0] = '+';
-            matrix[length,length] = '+';
+            matrix[0,lastColIndex] = '+';
+            matrix[lastRowIndex,0] = '+';
+            matrix[lastRowIndex,lastColIndex] = '+';
 
-            for (int i=0; i<=length; i++)
+            for (int i=0; i<=lastRowIndex; i++)
             {
-                for (int j=0; j<=length; j++)
+                for (int j=0; j<=lastColIndex; j++)
                 {
-                    if ((i==0 || i==length) && j!=0 && j!=length)
+                    if ((i==0 || i==lastRowIndex) && j!=0 && j!=lastColIndex)
                     {
                         matrix[i,j] = '-';
                     }
-                    else if ((j==0 || j==length) && i!=0 && i!=length)
+                    else if ((j==0 || j==lastColIndex) && i!=0 && i!=lastRowIndex)
                     {
                         matrix[i,j] = '|';
                     }
-                    else if (i!=0 && i!=length && j!=0 && j!=length)
+                    else if (i!=0 && i!=lastRowIndex && j!=0 && j!=lastColIndex)
                     {
                         matrix[i,j] = ' ';
                     }
@@ -142,10 +158,10 @@ namespace GameOfLife
             for (int i=0; i<relativeNeighbourCoords.GetLength(0); i++)
             {
                 // modulo and one-liner if-statements are for making the world cyclical.
-                int neighbourX = (x + relativeNeighbourCoords[i,0]) % 30;
-                int neighbourY = (y + relativeNeighbourCoords[i,1]) % 30;
-                neighbourX = neighbourX != 0 ? neighbourX : 30;
-                neighbourY = neighbourY != 0 ? neighbourY : 30;
+                int neighbourX = (x + relativeNeighbourCoords[i,0]) % (this.rows - 2);
+                int neighbourY = (y + relativeNeighbourCoords[i,1]) % (this.cols - 2);
+                neighbourX = neighbourX != 0 ? neighbourX : (this.rows - 2);
+                neighbourY = neighbourY != 0 ? neighbourY : (this.cols - 2);
                 
                 char neighbour = this.worldMatrix[neighbourX, neighbourY];
 
@@ -165,8 +181,9 @@ namespace GameOfLife
 
         public static void Main(string[] args)
         {
-            World world = new World();
-            world.spreadRandomLivesInWorld();
+            World world = new World(10,10);
+            // world.spreadRandomLivesInWorld();
+            world.createGlider();
 
             Console.Clear();
             int positionX = Console.CursorLeft;
