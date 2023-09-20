@@ -34,9 +34,9 @@ namespace GameOfLife
         public void spreadRandomLivesInWorld()
         {
             Random rand = new Random();
-            for (int i=1; i<this.worldMatrix.GetLength(0); i++)
+            for (int i=1; i<this.rows; i++)
             {
-                for (int j=1; j<this.worldMatrix.GetLength(1); j++)
+                for (int j=1; j<this.cols; j++)
                 {
                     if (rand.Next(0, 2) == 1)
                     {
@@ -48,12 +48,13 @@ namespace GameOfLife
 
         public void nextGeneration()
         {
-            char[,] newWorldMatrix = buildMatrix(new char[this.worldMatrix.GetLength(0), this.worldMatrix.GetLength(1)]);
-            int length = this.worldMatrix.GetLength(0) - 1;
+            char[,] newWorldMatrix = buildMatrix(new char[this.rows, this.cols]);
+            int lastRowIndex = this.rows - 1;
+            int lastColIndex = this.cols - 1;
 
-            for (int i=1; i<length; i++)
+            for (int i=1; i<lastRowIndex; i++)
             {
-                for (int j=1; j<length; j++)
+                for (int j=1; j<lastColIndex; j++)
                 {
                     char currentCell = this.worldMatrix[i,j];
                     int liveNeighbours = getLiveNeighbours(i, j);
@@ -93,11 +94,12 @@ namespace GameOfLife
 
         public void printWorld()
         {
-            int length = this.worldMatrix.GetLength(0) - 1;
+            int lastRowIndex = this.rows - 1;
+            int lastColIndex = this.cols - 1;
 
-            for (int i=0; i<=length; i++)
+            for (int i=0; i<=lastRowIndex; i++)
             {
-                for (int j=0; j<=length; j++)
+                for (int j=0; j<=lastColIndex; j++)
                 {
                     Console.Write(this.worldMatrix[i,j]);
                 }
@@ -118,8 +120,8 @@ namespace GameOfLife
 
         private char[,] buildMatrix(char[,] matrix)
         {
-            int lastRowIndex = matrix.GetLength(0) - 1;
-            int lastColIndex = matrix.GetLength(1) - 1;
+            int lastRowIndex = this.rows - 1;
+            int lastColIndex = this.cols - 1;
 
             matrix[0,0] = '+';
             matrix[0,lastColIndex] = '+';
@@ -181,9 +183,9 @@ namespace GameOfLife
 
         public static void Main(string[] args)
         {
-            World world = new World(10,10);
-            // world.spreadRandomLivesInWorld();
-            world.createGlider();
+            World world = new World(30,60);
+            world.spreadRandomLivesInWorld();
+            // world.createGlider();
 
             Console.Clear();
             int positionX = Console.CursorLeft;
